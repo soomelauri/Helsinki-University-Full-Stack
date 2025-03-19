@@ -21,11 +21,11 @@ const App = () => {
     const updatedGood = good + 1
     setGood(updatedGood)
 
-    const updatedPositive = positive + 1
-    setPositive(updatedPositive)
-
     const updatedTotal = updatedGood + neutral + bad
     setTotal(updatedTotal)
+
+    const updatedPositive =  ((updatedGood / updatedTotal))
+    setPositive(updatedPositive)
 
     const updatedAverage = ((updatedGood - bad) / updatedTotal)
     setAverage(updatedAverage)
@@ -38,6 +38,9 @@ const App = () => {
     const updatedTotal = updatedNeutral + good + bad
     setTotal(updatedTotal)
 
+    const updatedPositive =  ((good / updatedTotal))
+    setPositive(updatedPositive)
+
     const updatedAverage = ((good - bad) / updatedTotal)
     setAverage(updatedAverage)
   }
@@ -48,6 +51,9 @@ const App = () => {
 
     const updatedTotal = updatedBad + good + neutral
     setTotal(updatedTotal)
+
+    const updatedPositive =  ((good / updatedTotal))
+    setPositive(updatedPositive)
 
     const updatedAverage = ((good - updatedBad) / updatedTotal)
     setAverage(updatedAverage)
@@ -66,6 +72,7 @@ const App = () => {
       <p>neutral: {neutral}</p>
       <p>bad: {bad}</p>
       <p>average: {average}</p>
+      <p>positive: {positive}</p>
       <p>total: {total}</p>
     </div>
   )
