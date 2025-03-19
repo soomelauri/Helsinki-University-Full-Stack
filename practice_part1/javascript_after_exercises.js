@@ -65,18 +65,36 @@ const arto = {
 
 
 
-class Person {
-    constructor(name, age) {
-      this.name = name
-      this.age = age
-    }
-    greet() {
-      console.log('hello, my name is ' + this.name)
-    }
-  }
+// class Person {
+//     constructor(name, age) {
+//       this.name = name
+//       this.age = age
+//     }
+//     greet() {
+//       console.log('hello, my name is ' + this.name)
+//     }
+//   }
   
-  const adam = new Person('Adam Ondra', 29)
-  adam.greet()
+//   const adam = new Person('Adam Ondra', 29)
+//   adam.greet()
   
-  const janja = new Person('Janja Garnbret', 23)
-  janja.greet()
+//   const janja = new Person('Janja Garnbret', 23)
+//   janja.greet()
+
+
+// function foo(x, condition) {
+//     if (condition) {
+//       //console.log(x); -- This throws an error because x is not yet defined (next line)
+//       const x = 2;
+//       console.log(x);
+//     }
+//   }
+  
+//   foo(1, true);
+  
+
+
+//Decrementing and incrementing
+for(let x = 5; x > 1; x--) {
+    console.log(x)
+}
