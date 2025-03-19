@@ -6,9 +6,12 @@ const Button = ({ onClick, text}) => (
   </button>
 )
 
-const StatisticLine = ({ text, value }) => {
+const StatisticLine = ({ text, value, unit }) => {
   return (
-    <p> {text}: {value} </p>
+    <tr>
+      <td>{text}:</td>
+      <td>{value}{unit}</td>
+    </tr>
   )
 }
 
@@ -23,12 +26,17 @@ const Statistics = ({ good, neutral, bad, positive, average, total }) => {
   } else {
     return (
       <div>
-        <StatisticLine text="good" value = {good} />
-        <StatisticLine text="neutral" value = {neutral} />
-        <StatisticLine text="bad" value = {bad} />
-        <StatisticLine text="average" value = {average} />
-        <StatisticLine text="positive" value = {positive} />
-        <StatisticLine text="total" value = {total} />
+        <h2>statistics:</h2>
+        <table>
+          <tbody>
+          <StatisticLine text="good" value = {good} />
+          <StatisticLine text="neutral" value = {neutral} />
+          <StatisticLine text="bad" value = {bad} />
+          <StatisticLine text="average" value = {average} />
+          <StatisticLine text="positive" value = {positive} unit="%" />
+          <StatisticLine text="total" value = {total} />
+          </tbody>
+        </table>
       </div>
     )
   }
@@ -52,7 +60,7 @@ const App = () => {
     const updatedTotal = updatedGood + neutral + bad
     setTotal(updatedTotal)
 
-    const updatedPositive =  ((updatedGood / updatedTotal))
+    const updatedPositive =  ((updatedGood / updatedTotal) * 100)
     setPositive(updatedPositive)
 
     const updatedAverage = ((updatedGood - bad) / updatedTotal)
@@ -66,7 +74,7 @@ const App = () => {
     const updatedTotal = updatedNeutral + good + bad
     setTotal(updatedTotal)
 
-    const updatedPositive =  ((good / updatedTotal))
+    const updatedPositive =  ((good / updatedTotal) * 100)
     setPositive(updatedPositive)
 
     const updatedAverage = ((good - bad) / updatedTotal)
@@ -80,7 +88,7 @@ const App = () => {
     const updatedTotal = updatedBad + good + neutral
     setTotal(updatedTotal)
 
-    const updatedPositive =  ((good / updatedTotal))
+    const updatedPositive =  ((good / updatedTotal) * 100)
     setPositive(updatedPositive)
 
     const updatedAverage = ((good - updatedBad) / updatedTotal)
