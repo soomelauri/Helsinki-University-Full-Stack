@@ -1,10 +1,8 @@
 import { useState } from 'react'
 
-// get the length of the anecdotes
-
-
 const App = () => {
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array(8).fill(0))
 
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -21,16 +19,29 @@ const App = () => {
     const anecdoteLength = anecdotes.length
     const randomAnecdote = Math.floor(anecdoteLength * Math.random())
     setSelected(randomAnecdote)
-
   }
+
+  const voteAnecdote = () => {
+    const newVotes = [...votes]
+    newVotes[selected] += 1
+    setVotes(newVotes)
+  }
+
+  const mostVoted = votes.indexOf(Math.max(...votes))
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={voteAnecdote}>vote</button>
       <button onClick={getRandomAnecdote}>next anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <p>{anecdotes[mostVoted]}</p>
+      <p>has {votes[mostVoted]} votes</p>
     </div>
   )
+  }
 
-}
 
 export default App
