@@ -22,7 +22,7 @@ const Part = ({ part }) => {
   <p> {part.name} {part.exercises} </p>
   )
 }
-
+//correctly used the reduce method on an object by taking the part and accessing the exercises with .
 const Total = ({ parts }) => {
   const totalExercises = parts.reduce((sum, part) => sum + part.exercises, 0);
   
