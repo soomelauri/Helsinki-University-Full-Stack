@@ -15,6 +15,17 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+
+    if (newPerson === persons.name) {
+      alert(`Error, ${newPerson.name} already exists in contacts.`)
+    }
+
+    const duplicate = persons.some(person => person.name === newPerson)
+
+    if (duplicate) {
+      alert(`${newPerson} already exists in the phonebook.`)
+      return
+    }
     console.log('Button was pressed', event.target)
     const personObject = {
       name: newPerson,
