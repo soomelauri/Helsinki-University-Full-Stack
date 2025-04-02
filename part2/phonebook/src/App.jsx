@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import Person from './Person.jsx'
 import PersonForm from './Form.jsx'
 import Filter from './Filter.jsx'
 import Persons from './Persons.jsx'
-import axios from 'axios'
 
 import personService from './services/persons.js'
 
@@ -24,26 +22,38 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const duplicate = persons.some(person => person.name === newPerson)
+    const duplicate = persons.find(person => person.name === newPerson)
 
     if (duplicate) {
-      alert(`${newPerson} already exists in the phonebook.`)
-      return
-    }
-    console.log('Button was pressed', event.target)
-    const personObject = {
-      name: newPerson,
-      number: newNumber
-    }
+      if (window.confirm(`${newPerson} is already added to phonebook, replace the old number with a new one?`)) {
+        const updatedPerson = {...duplicate, number: newNumber}
 
-    personService
-      .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(personObject))
-        setNewPerson('')
-        setNewNumber('')
-      })
-  }
+        personService
+          .update(duplicate.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => 
+              person.id !== duplicate.id ? person : returnedPerson
+            ))
+            setNewPerson('')
+            setNewNumber('')
+          })
+        }
+      } else {
+        console.log('Button was pressed', event.target)
+        const personObject = {
+          name: newPerson,
+          number: newNumber
+        }
+    
+        personService
+          .create(personObject)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewPerson('')
+            setNewNumber('')
+          })
+      }
+    }
 
   const removePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
