@@ -34,11 +34,18 @@ const App = () => {
     const personObject = {
       name: newPerson,
       number: newNumber,
-      id: String(persons.length + 1)
+      id: 
+      String(persons.length + 1)
     }
-    setPersons(persons.concat(personObject))
-    setNewPerson('')
-    setNewNumber('')
+
+    // Add the created object into the database/backend
+    axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        persons.concat(response.data)
+        setNewPerson('')
+        setNewNumber('')
+        })
   }
 
   const personToShow = 
