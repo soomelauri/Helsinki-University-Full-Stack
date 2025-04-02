@@ -1,19 +1,84 @@
 {
-    "notes": [
-      {
-        "id": "1",
-        "content": "HTML is easy",
-        "important": true
-      },
-      {
-        "id": "2",
-        "content": "Browser can execute only JavaScript",
-        "important": false
-      },
-      {
-        "id": "3",
-        "content": "GET and POST are the most important methods of HTTP protocol",
-        "important": true
-      }
-    ]
-  }
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "id": "4",
+      "content": "Newly created note",
+      "important": false
+    },
+    {
+      "id": "0201",
+      "content": "Note without user-generated id",
+      "important": false
+    },
+    {
+      "id": "558f",
+      "content": "New note to be inspected",
+      "important": false
+    },
+    {
+      "id": "5340",
+      "content": "Why didn't the previous note show?",
+      "important": true
+    },
+    {
+      "id": "086f",
+      "content": "Cool to see how db.json updates when I save this.",
+      "important": true
+    },
+    {
+      "id": "f9d5",
+      "content": "New Note",
+      "important": true
+    },
+    {
+      "id": "e33d",
+      "content": "Is this important",
+      "important": false
+    },
+    {
+      "id": "2ff6",
+      "content": "HM",
+      "important": false
+    },
+    {
+      "id": "8e5e",
+      "content": "h",
+      "important": true
+    },
+    {
+      "id": "20e3",
+      "content": "Random",
+      "important": true
+    },
+    {
+      "id": "b9ef",
+      "content": "Interesting",
+      "important": false
+    },
+    {
+      "id": "c77c",
+      "content": "Cool",
+      "important": true
+    },
+    {
+      "id": "fe1b",
+      "content": "Hi",
+      "important": false
+    }
+  ]
+}
