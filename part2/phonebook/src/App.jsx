@@ -24,7 +24,6 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-
     const duplicate = persons.some(person => person.name === newPerson)
 
     if (duplicate) {
@@ -34,9 +33,7 @@ const App = () => {
     console.log('Button was pressed', event.target)
     const personObject = {
       name: newPerson,
-      number: newNumber,
-      id: 
-      String(persons.length + 1)
+      number: newNumber
     }
 
     personService
@@ -47,6 +44,15 @@ const App = () => {
         setNewNumber('')
       })
   }
+
+  const removePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then(setPersons(persons.filter(person => person.id !== id)))
+    }
+  }
+
 
   const personToShow = 
     searchField === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(searchField.toLowerCase()))
@@ -82,7 +88,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons personToShow={personToShow}/>
+      <Persons personToShow={personToShow} removePerson={removePerson}/>
     </div>
   )
 }

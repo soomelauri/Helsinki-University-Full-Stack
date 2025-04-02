@@ -6,39 +6,19 @@
       "id": "1"
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
+      "id": "2021",
+      "name": "Lauri Soome",
+      "number": "1419234912431"
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
+      "id": "2af9",
+      "name": "Mary",
+      "number": "12341234"
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": "4"
-    },
-    {
-      "id": "5",
-      "name": "New Number",
-      "number": "911"
-    },
-    {
-      "id": "6",
-      "name": "New Number 2",
-      "number": "112"
-    },
-    {
-      "id": "7",
-      "name": "New Number 3",
-      "number": "000"
-    },
-    {
-      "id": "8",
-      "name": "New Number 4",
-      "number": "111"
+      "id": "4426",
+      "name": "Tim ",
+      "number": "12341239041"
     }
   ]
 }
