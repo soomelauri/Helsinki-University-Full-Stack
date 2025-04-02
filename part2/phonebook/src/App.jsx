@@ -5,6 +5,8 @@ import Filter from './Filter.jsx'
 import Persons from './Persons.jsx'
 import axios from 'axios'
 
+import personService from './services/persons.js'
+
 const App = () => {
   const [persons, setPersons] = useState([])
 
@@ -13,13 +15,12 @@ const App = () => {
   const [searchField, setSearchField] = useState('')
 
   useEffect (() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log(response.data)
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }, [])
+    }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -38,14 +39,13 @@ const App = () => {
       String(persons.length + 1)
     }
 
-    // Add the created object into the database/backend
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
-        persons.concat(response.data)
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(personObject))
         setNewPerson('')
         setNewNumber('')
-        })
+      })
   }
 
   const personToShow = 
