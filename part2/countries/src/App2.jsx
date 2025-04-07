@@ -11,7 +11,6 @@ const Filter = ({ searchField, handleSearchFieldChange}) => {
 
 const App = () => {
   const [countries, setCountries] = useState([])
-  const [value, setValue] = useState('')
   const [searchField, setSearchField] = useState('')
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const App = () => {
 // 2. Iterate through the list of countries using .filter
 // 3. for each country, turn to lowercase, then use .include and turn the value to lowercase
 const filteredCountries = countries.filter(country => 
-    country.name.common.toLowerCase().includes(value.toLowerCase()))
+    country.name.common.toLowerCase().includes(searchField.toLowerCase()))
 
 const showCountries = () => {
     // Should this be used with conditional rendering? Like if search returns more than 10 countries, return message, 
@@ -38,15 +37,16 @@ const showCountries = () => {
         const country = filteredCountries[0]
         return (
             <div>
-                <h1>{country.common.name}</h1>
+                <h1>{country.name.common}</h1>
                 <p>Capital {country.capital}</p>
+                <p>Area {country.area}</p>
                 <h2>Languages</h2>
                 <ul>
-                    {country.languages && Object.entries(country.languages).map(([code, language]) => {
+                    {country.languages && Object.entries(country.languages).map(([code, language]) => (
                         <li key={code}>{language}</li>
-                    })}
+                    ))}
                 </ul>
-                <img src={country.flag.png} alt= "The flag of Finland has a white field with a large blue cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side." />
+                <img src={country.flags.png} alt= "The flag of Finland has a white field with a large blue cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side." />
             </div>
         )
     } else {
@@ -63,7 +63,7 @@ const handleSearchFieldChange = (event) => {
     return (
         <div>
             <Filter searchField={searchField} handleSearchFieldChange={handleSearchFieldChange}/>
-
+            {showCountries()}
         </div>
     )
 
