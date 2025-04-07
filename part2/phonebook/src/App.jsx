@@ -6,13 +6,25 @@ import Persons from './Persons.jsx'
 import personService from './services/persons.js'
 
 
-const Notification = ({ message }) => {
+const SuccessNotification = ({ message }) => {
   if (message === null) {
     return null
   }
 
   return (
     <div className='success'>
+      {message}
+    </div>
+  )
+}
+
+const ErrorNotification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
       {message}
     </div>
   )
@@ -25,6 +37,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchField, setSearchField] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect (() => {
     personService
@@ -57,6 +70,14 @@ const App = () => {
               setSuccessMessage(null)
             }, 3000)
             setNotes(notes.filter(n => n.id !== id))
+          })
+          .catch(error => {
+            setErrorMessage(
+              `Information of ${newPerson} has already been removed from server`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
           })
         }
       } else {
@@ -113,7 +134,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage}/>
+      <SuccessNotification message={successMessage}/>
+      <ErrorNotification message={errorMessage} />
       <Filter 
       searchField={searchField} 
       handleSearchFieldChange={handleSearchFieldChange} 
