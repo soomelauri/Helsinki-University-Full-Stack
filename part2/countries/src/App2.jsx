@@ -1,6 +1,23 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+const CountryDetails = ({ country }) => {
+    return (
+        <div>
+            <h1>{country.name.common}</h1>
+            <p>Capital: {country.capital}</p>
+            <p>Area: {country.area}</p>
+            <h2>Languages:</h2>
+            <ul>
+                {country.languages && Object.entries(country.languages).map(([code, language]) => (
+                    <li key={code}>{language}</li>
+                ))}
+            </ul>
+            <img src={country.flags.png}/>
+        </div>
+    )
+}
+
 const Filter = ({ searchField, handleSearchFieldChange}) => {
     return (
         <div>
@@ -12,6 +29,7 @@ const Filter = ({ searchField, handleSearchFieldChange}) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [searchField, setSearchField] = useState('')
+  const [selectedCountries, setSelectedCountries] = useState({})
 
   useEffect(() => {
     // use axios to pull all countries data
@@ -26,28 +44,30 @@ const App = () => {
 const filteredCountries = countries.filter(country => 
     country.name.common.toLowerCase().includes(searchField.toLowerCase()))
 
+const toggleCountryDetails = (countryCode) => {
+    setSelectedCountries(prevSelected => ({
+        ...prevSelected, [countryCode]: !prevSelected[countryCode]
+    }))
+}
+
 const showCountries = () => {
     // Should this be used with conditional rendering? Like if search returns more than 10 countries, return message, 
     // if less than ten but more than 1, return the list, if 1 return the data
     if (filteredCountries.length >= 10) {
         return <p>Too many matches, specify another filter</p>
     } else if (filteredCountries.length > 1){
-        return filteredCountries.map(country => <p key={country.cca2}>{country.name.common}</p>)
-    } else if (filteredCountries.length === 1){
-        const country = filteredCountries[0]
-        return (
-            <div>
-                <h1>{country.name.common}</h1>
-                <p>Capital {country.capital}</p>
-                <p>Area {country.area}</p>
-                <h2>Languages</h2>
-                <ul>
-                    {country.languages && Object.entries(country.languages).map(([code, language]) => (
-                        <li key={code}>{language}</li>
-                    ))}
-                </ul>
-                <img src={country.flags.png} alt= "The flag of Finland has a white field with a large blue cross that extend to the edges of the field. The vertical part of this cross is offset towards the hoist side." />
+        return filteredCountries.map(country => (
+            <div key={country.cca2}>
+                {country.name.common}
+                <button onClick={() => toggleCountryDetails(country.cca2)}>
+                    show
+                </button>
+                {selectedCountries[country.cca2] && <CountryDetails country={country } />}
             </div>
+        ))
+    } else if (filteredCountries.length === 1){
+        return (
+            <CountryDetails country={filteredCountries[0]}/>
         )
     } else {
         return <p>No matching countries.</p>
