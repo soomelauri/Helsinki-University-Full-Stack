@@ -5,12 +5,26 @@ import Persons from './Persons.jsx'
 
 import personService from './services/persons.js'
 
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='success'>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
 
   const [newPerson, setNewPerson] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchField, setSearchField] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   useEffect (() => {
     personService
@@ -36,6 +50,13 @@ const App = () => {
             ))
             setNewPerson('')
             setNewNumber('')
+            setSuccessMessage(
+              `${newPerson}'s number has been successfully updated.`
+            )
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 3000)
+            setNotes(notes.filter(n => n.id !== id))
           })
         }
       } else {
@@ -51,6 +72,13 @@ const App = () => {
             setPersons(persons.concat(returnedPerson))
             setNewPerson('')
             setNewNumber('')
+            setSuccessMessage(
+              `${newPerson}'s number has been successfully added.`
+            )
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 3000)
+            setNotes(notes.filter(n => n.id !== id))
           })
       }
     }
@@ -85,6 +113,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage}/>
       <Filter 
       searchField={searchField} 
       handleSearchFieldChange={handleSearchFieldChange} 
