@@ -2,10 +2,37 @@ import { useState, useEffect } from 'react'
 import Note from './Note'
 import noteService from './services/notes'
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='errors'>
+      {message}
+    </div>
+  )
+}
+
+const Footer = () => {
+  const footerStyle = {
+    color: 'green',
+    fontStyle: 'italic',
+    fontSize: 16
+  }
+  return (
+    <div style={footerStyle}>
+      <br />
+      <em>Note app, Department of Computer Science, University of Helsinki 2025</em>
+    </div>
+  )
+}
+
 const App = (props) => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     noteService
@@ -25,9 +52,12 @@ const App = (props) => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
       })
       .catch(error => {
-        alert(
-          `the note ${note.content} was already deleted from the server`
+        setErrorMessage(
+          `Note ${note.content} was already deleted from the server`
         )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
         setNotes(notes.filter(n => n.id !== id))
       })
   }
@@ -61,6 +91,7 @@ const App = (props) => {
   return (
     <div>
     <h1>Notes</h1>
+    <Notification message={errorMessage} />
     <div>
       <button onClick={() => setShowAll(! showAll)}>
         show {showAll ? 'important' : 'all'}
@@ -79,6 +110,7 @@ const App = (props) => {
       onChange={handleNoteChange}/>
       <button type='submit'>save</button>
     </form>
+    <Footer />
   </div>
 )}
 

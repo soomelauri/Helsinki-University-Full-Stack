@@ -18,7 +18,7 @@
     {
       "id": "4",
       "content": "Newly created note",
-      "important": false
+      "important": true
     },
     {
       "id": "0201",
@@ -78,6 +78,16 @@
     {
       "id": "fe1b",
       "content": "Hi",
+      "important": false
+    },
+    {
+      "id": "cd92",
+      "content": "New new note",
+      "important": true
+    },
+    {
+      "id": "f092",
+      "content": "New new note",
       "important": false
     }
   ]
