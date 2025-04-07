@@ -29,7 +29,7 @@ const Footer = () => {
 }
 
 const App = (props) => {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState(null)
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
@@ -41,6 +41,10 @@ const App = (props) => {
         setNotes(initialNotes)
       })
   }, [])
+
+  if (!notes) {
+    return null
+  }
 
   const toggleImportanceOf = id => {
     const note = notes.find(n => n.id === id)
