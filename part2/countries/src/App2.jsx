@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const CountryDetails = ({ country }) => {
+    const [weather, setWeather] = useState()
+    const api_key = import.meta.env.VITE_WEATHER_API_KEY
+
+    useEffect(() => {
+        const capital = country.capital[0]
+
+        axios.get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${capital}`)
+        .then(response => {
+            setWeather(response.data)
+        })
+        .catch(err => {
+            console.log('Error with weather fetch:', err)
+        })
+    }, [country.capital, api_key])
+    
     return (
         <div>
             <h1>{country.name.common}</h1>
@@ -14,6 +29,16 @@ const CountryDetails = ({ country }) => {
                 ))}
             </ul>
             <img src={country.flags.png}/>
+
+            {/* Add Weather stuff here */}
+            {weather && weather.current && (
+                <div>
+                    <h2>Weather in {country.capital}</h2>
+                    <p>Temperature: {weather.current.temperature} °C</p>
+                    <img src={weather.current.weather_icons[0]} />
+                    <p>Wind: {weather.current.wind_speed} m/s</p>
+                </div>
+            )}
         </div>
     )
 }
