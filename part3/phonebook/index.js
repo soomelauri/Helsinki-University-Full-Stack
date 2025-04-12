@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-const persons = [
+let persons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -44,6 +44,13 @@ app.get('/info', (req, res) => {
 
 })
 
+// Delete one entry using the id param
+app.delete('/api/persons/:id', (req, res) => {
+  const id = req.params.id;
+  persons = persons.filter(person => person.id !== id)
+
+  res.status(204).end()
+})
 
 
 const PORT = 3000
