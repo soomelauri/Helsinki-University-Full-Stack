@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 let persons = [
     { 
@@ -41,6 +42,26 @@ app.get('/api/persons/:id', (req, res) => {
 // calculate the length of phonebook - then output that in the info
 app.get('/info', (req, res) => {
   res.send(`Phonebook has info for ${phonebook_length} people`)
+
+})
+
+// generate a random id using a large enough range to avoid duplicate ids
+const generateId = () => {
+  return String(Math.floor(Math.random() * 100))
+}
+// post request for adding a new person entry to the phonebook
+app.post('/api/persons', (req, res) => {
+  
+  const body = req.body;
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number
+  }
+
+  persons = persons.concat(person)
+  res.json(person)
 
 })
 
