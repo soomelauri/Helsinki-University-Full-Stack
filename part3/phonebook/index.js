@@ -2,11 +2,17 @@ const morgan = require('morgan')
 const express = require('express')
 const app = express()
 
-// set morgan as the first middleware
-app.use(morgan('tiny'))
+// morgan token method for the request body
+morgan.token('body', 
+  function(request) { 
+    return JSON.stringify(request.body) 
+  })
 
-// set json parsing as the second middleware
+// set json parsing as the first middleware
 app.use(express.json())
+
+// set morgan as the second middleware
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
     { 
