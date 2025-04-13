@@ -1,5 +1,11 @@
+const morgan = require('morgan')
 const express = require('express')
 const app = express()
+
+// set morgan as the first middleware
+app.use(morgan('tiny'))
+
+// set json parsing as the second middleware
 app.use(express.json())
 
 let persons = [
