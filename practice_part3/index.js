@@ -29,6 +29,7 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+
 // use () to return middleware
 app.use(express.json())
 // no need for () due to the function already being directly usable
