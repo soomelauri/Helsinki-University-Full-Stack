@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-const http = require('http')
+app.use(express.static('dist'))
 
 let notes = [
     {
@@ -28,6 +28,7 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
+
 // use () to return middleware
 app.use(express.json())
 // no need for () due to the function already being directly usable
@@ -72,6 +73,8 @@ const generateId = () => {
 
 // create a resource using POST
 app.post('/api/notes', (request, response) => {
+
+  const body = request.body
   
   if (!body.content) {
     return response.status(400).json({
@@ -97,7 +100,7 @@ const unknownEndpoint = (request, response) => {
 // no need for () due to the function already being directly usable
 app.use(unknownEndpoint)
   
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
-console.log(`Go to the page: http://localhost:${PORT}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`)
+})
