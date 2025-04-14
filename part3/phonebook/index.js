@@ -100,7 +100,7 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 
-const PORT = 3000
-app.listen(PORT)
-console.log(`To see the app, go to http://localhost:${PORT}`)
-console.log(phonebook_length)
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`)
+})
