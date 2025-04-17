@@ -1,4 +1,4 @@
-POST https://practice-part3.fly.dev/api/notes
+POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
