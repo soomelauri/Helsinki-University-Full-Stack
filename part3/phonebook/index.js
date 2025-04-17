@@ -60,11 +60,12 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 // Use the Person constructor and app.get
 
 // new mongodb GET request
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
   Person.find({})
     .then(people => {
       res.json(people)
     })
+    .catch(error => next(error))
 })
 
 
@@ -133,6 +134,33 @@ app.post('/api/persons', (req, res) => {
   persons = persons.concat(person)
   res.json(person)
 
+})
+
+// new MongoDB PUT request
+app.put('/api/persons/:id', (req, res, next) => {
+  // first we need to deconstruct the name and number from the request body
+  const { name, number } = req.body
+
+  // Take the Person constructor function and iterate through it using .findbyID
+  Person.findById(req.params.id)
+    .then(person => {
+      // If person doesn't exist, return 404 status code
+      if (!person) {
+        return res.status(404).end()
+      }
+      // If person exists, take the deconstructed name and number and store them into the person object
+      person.name = name
+      person.number = number
+
+
+      // Save the person to the db
+      person.save()
+        .then((updatedPerson) => {
+          return res.json(updatedPerson)
+        })
+    })
+    // Send error to middleware
+    .catch(error => next(error))
 })
 
 // new MongoDB delete request
