@@ -50,11 +50,32 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 // Definet the person constructor using schema
 // Use the Person constructor and app.get
 
-
+// new mongodb GET request
 app.get('/api/persons', (req, res) => {
   Person.find({})
     .then(people => {
       res.json(people)
+    })
+})
+
+
+// new mongodb POST request
+app.post('/api/persons', (req, res) => {
+  const body = req.body
+
+  // if user does not provide body to the request, return an error with message
+  if (!body) {
+    return res.status(400).json({ error: 'content missing'})
+  }
+
+  const person = new Person ({
+    name: body.name,
+    number: body.number,
+  })
+
+  person.save()
+    .then(savedPerson => {
+      res.json(savedPerson)
     })
 })
 

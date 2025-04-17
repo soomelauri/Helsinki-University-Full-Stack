@@ -1,7 +1,7 @@
-POST https://phonebook-billowing-firefly-5357.fly.dev/api/persons
+POST http://localhost:3000/api/persons
 Content-Type: application/json
 
 {
-    "name": "Jimmy Kimmel",
-    "number": "666"
+    "name": "Lauri Soome",
+    "number": "919193924"
 }
