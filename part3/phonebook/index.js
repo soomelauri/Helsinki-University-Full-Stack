@@ -90,19 +90,28 @@ app.post('/api/persons', (req, res) => {
 })
 
 
-// get specific person from the phonebook
-app.get('/api/persons/:id', (req, res) => {
-  const id = req.params.id
-  const person = persons.find(person => person.id === id)
-  res.json(person)
+// new mongodb GET request for a specific person
+app.get('/api/persons/:id', (req, res, next) => {
+  Person.findById(req.params.id)
+    .then(person => {
+      if (person) {
+        res.json(person)
+      } else {
+        res.status(404).end()
+      }
+    })
 })
 
-// info page
-// calculate the length of phonebook - then output that in the info
-app.get('/info', (req, res) => {
-  res.send(`Phonebook has info for ${phonebook_length} people`)
 
+// new GET request for a mongoDB info page 
+app.get('/info', (req, res, next) => {
+  Person.countDocuments({})
+    .then(count => {
+      res.send(`Phonebook has info for ${count} people`)
+    })
+    .catch(error => next(error))
 })
+
 
 // generate a random id using a large enough range to avoid duplicate ids
 const generateId = () => {
