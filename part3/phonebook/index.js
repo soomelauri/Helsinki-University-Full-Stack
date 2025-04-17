@@ -6,6 +6,15 @@ const app = express()
 
 app.use(express.static('dist'))
 
+// define new error-handling middleware
+const errorHandler = (error, request, response, next) => {
+  if (error.name === 'CastError') {
+    response.status(400).json({ error: 'malformatted id'})
+  }
+
+  next(error)
+}
+
 // morgan token method for the request body
 morgan.token('body', 
   function(request) { 
@@ -127,12 +136,15 @@ app.post('/api/persons', (req, res) => {
 })
 
 // new MongoDB delete request
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
     .then(result => {
       res.status(204).end()
     })
+    .catch(error => next(error))
 })
+
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT
