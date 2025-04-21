@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-require('dotenv').config()
+const config = require('./utils/config.js')
 
 // create express app
 const app = express()
@@ -17,7 +17,7 @@ const blogSchema = mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema)
 
 // store the mongoDBURL
-const mongoUrl = process.env.MONGODB_URI
+const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
 
 // Use Middleware
@@ -41,7 +41,6 @@ app.post('/api/blogs', (request, response) => {
 })
 
 // Define PORT and set the app to listen to that port
-const PORT = 3003
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+app.listen(config.PORT, () => {
+  console.log(`Server running on port ${config.PORT}`)
 })
