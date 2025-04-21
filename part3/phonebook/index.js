@@ -10,18 +10,18 @@ app.use(express.static('dist'))
 // add new error-handling for ValidationError
 const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
-    response.status(400).json({ error: 'malformatted id'})
+    response.status(400).json({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-    response.status(400).json({ error: error.message})
+    response.status(400).json({ error: error.message })
   }
 
   next(error)
 }
 
 // morgan token method for the request body
-morgan.token('body', 
-  function(request) { 
-    return JSON.stringify(request.body) 
+morgan.token('body',
+  function(request) {
+    return JSON.stringify(request.body)
   })
 
 // set json parsing as the first middleware
@@ -60,7 +60,7 @@ app.post('/api/persons', (req, res, next) => {
       res.json(savedPerson)
     })
 
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 
@@ -74,10 +74,10 @@ app.get('/api/persons/:id', (req, res, next) => {
         res.status(404).end()
       }
     })
+    .catch(error => next(error))
 })
 
-
-// new GET request for a mongoDB info page 
+// new GET request for a mongoDB info page
 app.get('/info', (req, res, next) => {
   // store current time
   const timeNow = new Date()
@@ -119,7 +119,7 @@ app.put('/api/persons/:id', (req, res, next) => {
 // new MongoDB delete request
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => next(error))
