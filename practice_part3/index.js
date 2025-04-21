@@ -126,7 +126,7 @@ app.get('/api/notes', (request, response) => {
 })
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'endpoint not found'})
+  response.status(404).send({ error: 'endpoint not found' })
 }
 
 // no need for () due to the function already being directly usable
