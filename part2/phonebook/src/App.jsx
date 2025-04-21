@@ -49,6 +49,7 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+
     const duplicate = persons.find(person => person.name === newPerson)
 
     if (duplicate) {
@@ -86,21 +87,31 @@ const App = () => {
           name: newPerson,
           number: newNumber
         }
-    
+
         personService
-          .create(personObject)
-          .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
-            setNewPerson('')
-            setNewNumber('')
-            setSuccessMessage(
-              `${newPerson}'s number has been successfully added.`
-            )
-            setTimeout(() => {
-              setSuccessMessage(null)
-            }, 3000)
-            setNotes(notes.filter(n => n.id !== id))
-          })
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewPerson('')
+          setNewNumber('')
+          setSuccessMessage(
+            `${newPerson}'s number has been successfully added.`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
+          setNotes(notes.filter(n => n.id !== id))
+        })
+
+        .catch(error => {
+          setErrorMessage(
+            error.response.data.error
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
+
       }
     }
 

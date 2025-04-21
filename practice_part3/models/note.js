@@ -15,8 +15,13 @@ mongoose.connect(url)
         console.log('error', error.message)
     })
 
+// add validation to noteSchema
 const noteSchema = new mongoose.Schema({
-    content: String,
+    content: {
+        type: String,
+        minLength: 5,
+        required: true
+    },
     important: Boolean,
     })
 

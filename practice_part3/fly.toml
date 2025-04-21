@@ -1,12 +1,15 @@
-# fly.toml app configuration file generated for practice-part3 on 2025-04-17T00:55:59-04:00
+# fly.toml app configuration file generated for practice-part3 on 2025-04-18T11:47:31-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'practice-part3'
-primary_region = 'iad'
+primary_region = 'ewr'
 
 [build]
+
+[env]
+  PORT = "3001"
 
 [http_service]
   internal_port = 3001

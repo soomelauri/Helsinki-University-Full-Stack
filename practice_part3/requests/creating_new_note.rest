@@ -2,6 +2,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "This is a nice way to not use Postman",
+    "content": "lol",
     "important": true
 }
