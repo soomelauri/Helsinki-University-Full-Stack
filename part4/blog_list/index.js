@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const config = require('./utils/config.js')
 
+const logger = require('./utils/logger.js')
+
 // create express app
 const app = express()
 
@@ -42,5 +44,5 @@ app.post('/api/blogs', (request, response) => {
 
 // Define PORT and set the app to listen to that port
 app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
+  logger.info(`Server running on port ${config.PORT}`)
 })
