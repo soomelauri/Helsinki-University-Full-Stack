@@ -6,16 +6,21 @@ notesRouter.get('/', async (request, response) => {
   response.json(notes)
 })
 
-notesRouter.get('/:id', (request, response, next) => {
-  Note.findById(request.params.id)
-    .then(note => {
-      if (note) {
-        response.json(note)
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch(error => next(error))
+notesRouter.get('/:id', async (request, response, next) => {
+  // wrap it all inside a try-catch
+  try {
+  // find all notes by id
+    const note = await Note.findById(request.params.id)
+
+    // if note exists, return it, otherwise give an error
+    if (note) {
+      response.json(note)
+    } else {
+      response.status(404).end()
+    }
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 notesRouter.post('/', async (request, response, next) => {
@@ -33,6 +38,17 @@ notesRouter.post('/', async (request, response, next) => {
     next(exception)
   }
 })
+
+notesRouter.delete('/:id', async (request, response, next) => {
+  // begin the try-catch
+  try {
+    await Note.findByIdAndDelete(request.params.id)
+    response.status(204).end()
+  } catch (exception) {
+    next(exception)
+  }
+})
+
 
 notesRouter.delete('/:id', (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)
