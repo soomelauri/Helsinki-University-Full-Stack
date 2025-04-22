@@ -6,6 +6,13 @@ const Note = require('../models/note')
 
 // All GET routes
 
+// GET all notes
+
+notesRouter.get('/', async (request, response) => {
+  const notes = await Note.find({})
+  response.json(notes)
+})
+
 // GET specific note by ID
 notesRouter.get('/:id', (request, response, next) => {
   Note.findById(request.params.id)
@@ -15,15 +22,6 @@ notesRouter.get('/:id', (request, response, next) => {
       } else {
         response.status(404).end()
       }
-    })
-    .catch(error => next(error))
-})
-
-// GET all notes
-notesRouter.get('/', (request, response, next) => {
-  Note.find({})
-    .then(notes => {
-      response.json(notes)
     })
     .catch(error => next(error))
 })
