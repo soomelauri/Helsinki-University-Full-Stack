@@ -23,7 +23,27 @@ const totalLikes = (blogs) => {
       : blogs.reduce(reducer, 0)
 }
 
+// Define a new favoriteBlog function that receives a list of blogs as a parameter. ----- 
+// The function returns the blog with the most likes. If there are multiple favorites, 
+// it is sufficient for the function to return any one of them.
+
+
+const favoriteBlog = (blogs) => {
+    const reducer = (current, favorite) => {
+        if (current.likes > favorite.likes) {
+            return current
+        }
+        return favorite
+    }
+    return blogs.length === 0
+      ? 0
+      : blogs.reduce(reducer, blogs[0])
+}
+
+
+
 module.exports = {
     dummy,
-    totalLikes
+    totalLikes,
+    favoriteBlog
 }
