@@ -1,19 +1,11 @@
-// in order for this code to work, we need to  import express(), then
-
 const notesRouter = require('express').Router()
-
 const Note = require('../models/note')
-
-// All GET routes
-
-// GET all notes
 
 notesRouter.get('/', async (request, response) => {
   const notes = await Note.find({})
   response.json(notes)
 })
 
-// GET specific note by ID
 notesRouter.get('/:id', (request, response, next) => {
   Note.findById(request.params.id)
     .then(note => {
@@ -26,38 +18,6 @@ notesRouter.get('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-// DELETE a specific note by ID
-notesRouter.delete('/:id', (request, response, next) => {
-  Note.findByIdAndDelete(request.params.id)
-    .then(() => {
-      response.status(204).end()
-    })
-    .catch(error => next(error))
-})
-
-// Update a specific note by ID
-notesRouter.put('/:id', (request, response, next) => {
-  const { content, important } = request.body
-
-  Note.findById(request.params.id)
-    .then(note => {
-      if (!note) {
-        return response.status(404).end()
-      }
-
-      note.content = content
-      note.important = important
-
-      return note.save()
-        .then((updatedNote) => {
-          response.json(updatedNote)
-        })
-    })
-    .catch(error => next(error))
-})
-
-// POST a new note
-
 notesRouter.post('/', (request, response, next) => {
   const body = request.body
 
@@ -69,6 +29,29 @@ notesRouter.post('/', (request, response, next) => {
   note.save()
     .then(savedNote => {
       response.json(savedNote)
+    })
+    .catch(error => next(error))
+})
+
+notesRouter.delete('/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(() => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+})
+
+notesRouter.put('/:id', (request, response, next) => {
+  const body = request.body
+
+  const note = {
+    content: body.content,
+    important: body.important,
+  }
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
     })
     .catch(error => next(error))
 })
