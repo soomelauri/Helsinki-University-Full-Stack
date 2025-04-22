@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Best Tennis Blog",
-  "author": "Talking Tennis",
-  "url": "https://talkingtennis.net/blog-posts",
-  "likes": 350
+  "title": "Fun Disney World Blog",
+  "author": "Walt Disney",
+  "url": "https://disneyparksblog.com/",
+  "likes": 13000
 }
