@@ -15,12 +15,12 @@ const dummy = (blogs) => {
 // I think this is a reducer function, you take a list, keep count, and then iterate
 
 const totalLikes = (blogs) => {
-    const reducer = (sum, item) => {
-        return sum + item.likes
-    }
-    return blogs.length === 0 
-      ? 0
-      : blogs.reduce(reducer, 0)
+  const reducer = (sum, item) => {
+    return sum + item.likes
+  }
+  return blogs.length === 0
+    ? 0
+    : blogs.reduce(reducer, 0)
 }
 
 // Define a new favoriteBlog function that receives a list of blogs as a parameter. ----- 
@@ -29,21 +29,21 @@ const totalLikes = (blogs) => {
 
 
 const favoriteBlog = (blogs) => {
-    const reducer = (current, favorite) => {
-        if (current.likes > favorite.likes) {
-            return current
-        }
-        return favorite
+  const reducer = (current, favorite) => {
+    if (current.likes > favorite.likes) {
+      return current
     }
-    return blogs.length === 0
-      ? 0
-      : blogs.reduce(reducer, blogs[0])
+    return favorite
+  }
+  return blogs.length === 0
+    ? 0
+    : blogs.reduce(reducer, blogs[0])
 }
 
 
 
 module.exports = {
-    dummy,
-    totalLikes,
-    favoriteBlog
+  dummy,
+  totalLikes,
+  favoriteBlog
 }
