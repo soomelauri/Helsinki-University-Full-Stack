@@ -35,7 +35,7 @@ test('identifier property name check', async() => {
   assert.ok(blogs[0], 'id')
 })
 
-// First POST request using promises:
+// First POST request
 test('success creating a blog post', async () => {
   const newBlog = {
     _id: '5a422aa71b54a676234d17f9',
@@ -64,9 +64,29 @@ test('success creating a blog post', async () => {
 
   // make sure the contents have our blog
   assert(titles.includes('Tennis Game'))
-
 })
 
+
+// Second POST request making sure no like property turns to 0 likes.
+test('no likes post sets likes to 0', async () => {
+  const newBlog = {
+    _id: '5a422aa71b54a676234d17f9',
+    title: 'Golf Dreams',
+    author: 'Tiger Woods',
+    url: 'https://golfdreams.com',
+    __v: 0,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blog = await Blog.findById(newBlog._id)
+
+  assert.strictEqual(blog.likes, 0)
+})
 
 
 after(async () => {
