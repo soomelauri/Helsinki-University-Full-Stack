@@ -35,6 +35,40 @@ test('identifier property name check', async() => {
   assert.ok(blogs[0], 'id')
 })
 
+// First POST request using promises:
+test('success creating a blog post', async () => {
+  const newBlog = {
+    _id: '5a422aa71b54a676234d17f9',
+    title: 'Tennis Game',
+    author: 'Andy Roddick',
+    url: 'https://tennisgame.com',
+    likes: 39,
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+
+  // get the blogs after POST
+  const blogsAtEnd = await helper.blogsInDb()
+
+  // get contents of all blogs
+  const titles = blogsAtEnd.map(b => b.title)
+
+  // make sure the length of the db increased by 1
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+  // make sure the contents have our blog
+  assert(titles.includes('Tennis Game'))
+
+})
+
+
+
 after(async () => {
   await mongoose.connection.close()
 })
