@@ -1,16 +1,17 @@
+const asyncHandler = require('express-async-handler')
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog.js')
 
 // Create API Routes
 // GET Route
-blogRouter.get('/', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs)
-  })
+blogRouter.get('/', async (request, response) => {
+
+  const blogs = await Blog.find({})
+  response.json(blogs)
 })
 
 // POST Route
-blogRouter.post('/', (request, response) => {
+blogRouter.post('/', asyncHandler(async (request, response) => {
   const body = request.body
   const blog = new Blog({
     _id: body._id,
@@ -21,9 +22,8 @@ blogRouter.post('/', (request, response) => {
     __v: 0
   })
 
-  blog.save().then((result) => {
-    response.status(201).json(result)
-  })
-})
+  const savedBlog = await blog.save()
+  return response.status(201).json(savedBlog)
+}))
 
 module.exports = blogRouter

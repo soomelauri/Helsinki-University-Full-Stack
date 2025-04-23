@@ -66,7 +66,6 @@ test('success creating a blog post', async () => {
   assert(titles.includes('Tennis Game'))
 })
 
-
 // Second POST request making sure no like property turns to 0 likes.
 test('no likes post sets likes to 0', async () => {
   const newBlog = {
@@ -86,6 +85,47 @@ test('no likes post sets likes to 0', async () => {
   const blog = await Blog.findById(newBlog._id)
 
   assert.strictEqual(blog.likes, 0)
+})
+
+// Third POST request, making sure no title POST request is rejected
+test('posts with missing title', async() => {
+  const newBlog = {
+    _id: '5a422aa71b54a676234d17f9',
+    author: 'Tiger Woods',
+    url: 'https://golfdreams.com',
+    likes: 39,
+    __v: 0,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  // get the current DB
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+})
+
+// Fourth POST request, making sure no url POST request is rejected
+test('post with missing url', async () => {
+  const newBlog = {
+    _id: '5a422aa71b54a676234d17f9',
+    title: 'Golf Dreams',
+    author: 'Tiger Woods',
+    likes: 39,
+    __v: 0,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  // check the db
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 })
 
 
