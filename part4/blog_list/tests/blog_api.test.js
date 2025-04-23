@@ -29,7 +29,12 @@ test('the correct number of blog posts returned', async() => {
   assert.strictEqual(notes.length, helper.initialBlogs.length)
 })
 
-after(() => {
-  console.log('finished tests')
-  mongoose.connection.close()
+// Third GET request to make sure the identifier property is named 'id'
+test('identifier property name check', async() => {
+  const blogs = await helper.blogsInDb()
+  assert.ok(blogs[0], 'id')
+})
+
+after(async () => {
+  await mongoose.connection.close()
 })
