@@ -128,7 +128,7 @@ test('post with missing url', async () => {
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 })
 
-// First DELETE request, making sure when a resource is deleted, it's deleted
+// First DELETE request, making sure when a blog is deleted
 test('deleting a resource', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
@@ -143,6 +143,27 @@ test('deleting a resource', async () => {
   assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
 
   assert(!contents.includes('React patterns'))
+})
+
+// First PUT request, making sure we can update the likes of a blog
+test('updating a resource', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const blogData = {
+    likes: 666,
+  }
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogData)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  const updatedBlog = blogsAtEnd.find(blog => blog.id === blogToUpdate.id)
+
+
+  assert.strictEqual(updatedBlog.likes, 666)
 })
 
 
