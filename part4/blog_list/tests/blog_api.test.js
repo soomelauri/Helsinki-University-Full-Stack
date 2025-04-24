@@ -128,6 +128,23 @@ test('post with missing url', async () => {
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 })
 
+// First DELETE request, making sure when a resource is deleted, it's deleted
+test('deleting a resource', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  const contents = blogsAtEnd.map(r => r.title)
+
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+
+  assert(!contents.includes('React patterns'))
+})
+
 
 after(async () => {
   await mongoose.connection.close()
