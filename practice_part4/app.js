@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config.js')
 const logger = require('./utils/logger')
 const notesRouter = require('./controllers/notes.js')
+const usersRouter = require('./controllers/users.js')
 const middleware = require('./utils/middleware.js')
 
 // initialize the app
@@ -25,6 +26,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/notes', notesRouter)
+app.use('/api/users', usersRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
