@@ -7,6 +7,7 @@ const errorHandler = require('./utils/middleware.js').errorHandler
 // router imports
 const blogRouter = require('./controllers/blogs.js')
 const userRouter = require('./controllers/users.js')
+const loginRouter = require('./controllers/login.js')
 
 // create express app
 const app = express()
@@ -28,6 +29,7 @@ app.use(express.json())
 // use router
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
+app.use('/api/login', loginRouter)
 
 // use Middleware
 app.use(errorHandler)
