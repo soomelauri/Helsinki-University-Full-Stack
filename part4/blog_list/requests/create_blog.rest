@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Fun Disney World Blog",
-  "author": "Walt Disney",
-  "url": "https://disneyparksblog.com/",
-  "likes": 13000
+  "title": "Random Thoughts",
+  "author": "Randy Random",
+  "url": "https://randysblog.com/",
+  "likes": 1100,
+  "userId": "680c480c3d2cc875439c463c"
 }
