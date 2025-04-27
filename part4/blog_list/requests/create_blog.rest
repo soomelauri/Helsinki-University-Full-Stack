@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxzMTk5NiIsImlkIjoiNjgwZDY1YTBkYzhiMmExOTgxZThhN2IyIiwiaWF0IjoxNzQ1NzEzOTI2fQ.u2UcLC-GBFO5O08O4LAvxHiuDF9-7Gxlw3H2eXb26mQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxzMTk5NiIsImlkIjoiNjgwZDY1YTBkYzhiMmExOTgxZThhN2IyIiwiaWF0IjoxNzQ1NzE1MjczfQ.C6SvLfk8P0Sr_w2TTg-K7VQUm9HNHy6PZqV1DehDRx4
 
 {
-  "title": "Random Thoughts",
-  "author": "Randy Random",
-  "url": "https://randysblog.com/",
-  "likes": 1100
+  "title": "Hope it Works",
+  "author": "Big Hoper",
+  "url": "https://hope.com/",
+  "likes": 1109
 }

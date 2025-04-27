@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config.js')
 const logger = require('./utils/logger.js')
 const errorHandler = require('./utils/middleware.js').errorHandler
+const tokenExtractor = require('./utils/middleware.js').tokenExtractor
 
 // router imports
 const blogRouter = require('./controllers/blogs.js')
@@ -25,6 +26,7 @@ mongoose.connect(config.MONGODB_URI)
 
 // Use Middleware
 app.use(express.json())
+app.use(tokenExtractor)
 
 // use router
 app.use('/api/blogs', blogRouter)
