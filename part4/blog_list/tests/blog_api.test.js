@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const assert = require('node:assert')
 const { test, after, beforeEach } = require('node:test')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const app = require('../app.js')
 const supertest = require('supertest')
@@ -8,11 +10,28 @@ const api = supertest(app)
 
 const helper = require('../utils/test_helper.js')
 const Blog = require('../models/blog.js')
+const User = require('../models/user.js')
+
+// Define the token and deleteLaterBlog globally
+let token
 
 // use beforeEach to first clear out the test db, then store the initialBlogs found in the helper file to the db
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
+  await User.deleteMany({})
+  const passwordHash = await bcrypt.hash('test_password', 10)
+  const user = new User({
+    username: 'test_user',
+    name: 'Test User',
+    passwordHash
+  })
+  const savedUser = await user.save()
+  token = jwt.sign({
+    username: user.username,
+    id: user._id.toString()
+  },
+  process.env.SECRET)
 })
 
 // First GET request using async/await to return all blogs in the db in Json format
@@ -48,6 +67,7 @@ test('success creating a blog post', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -78,6 +98,7 @@ test('no likes post sets likes to 0', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -99,6 +120,7 @@ test('posts with missing title', async() => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(400)
 
@@ -119,6 +141,7 @@ test('post with missing url', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(400)
 
@@ -128,21 +151,68 @@ test('post with missing url', async () => {
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 })
 
-// First DELETE request, making sure when a blog is deleted
-test('deleting a resource', async () => {
-  const blogsAtStart = await helper.blogsInDb()
-  const blogToDelete = blogsAtStart[0]
+// Final POST request, making sure that no token provided request is rejected with a 401 status code
+test('post with no token fails with 401 unauthorized', async() => {
+  const newBlog = {
+    _id: '5a422aa71b54a676234d17f9',
+    title: 'Tennis Game',
+    author: 'Andy Roddick',
+    url: 'https://tennisgame.com',
+    likes: 39,
+    __v: 0
+  }
 
   await api
-    .delete(`/api/blogs/${blogToDelete.id}`)
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
+
+
+  // get the blogs after POST
+  const blogsAtEnd = await helper.blogsInDb()
+
+  // get contents of all blogs
+  const titles = blogsAtEnd.map(b => b.title)
+
+  // make sure the length of the db increased by 1
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+  // make sure the contents have our blog
+  assert(!titles.includes('Tennis Game'))
+})
+
+// DELETE test, first creating the blog to be deleted:
+test('deleting a resource (new)', async() => {
+  const blogsAtStart = await helper.blogsInDb()
+  // first we need to create the resource
+  const newBlog = {
+    _id: '9a422aa71b54a676234d17f9',
+    title: 'Deleted Blog',
+    author: 'Deleter',
+    url: 'https://deletethis.com',
+    likes: 31,
+    __v: 0
+  }
+  const response = await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const savedBlogId = response.body.id
+
+  await api
+    .delete(`/api/blogs/${savedBlogId}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(204)
 
   const blogsAtEnd = await helper.blogsInDb()
-  const contents = blogsAtEnd.map(r => r.title)
+  const titles = blogsAtEnd.map(r => r.title)
 
-  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
 
-  assert(!contents.includes('React patterns'))
+  assert(!titles.includes('Deleted Blog'))
 })
 
 // First PUT request, making sure we can update the likes of a blog

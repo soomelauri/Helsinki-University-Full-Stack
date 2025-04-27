@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog.js')
+const userExtractor = require('../utils/middleware.js').userExtractor
 
 // Create API Routes
 // GET Route
@@ -11,7 +12,7 @@ blogRouter.get('/', async (request, response) => {
 })
 
 // POST Route
-blogRouter.post('/', asyncHandler(async (request, response) => {
+blogRouter.post('/', userExtractor, asyncHandler(async (request, response) => {
   const body = request.body
 
   const user = request.user
@@ -35,7 +36,7 @@ blogRouter.post('/', asyncHandler(async (request, response) => {
 }))
 
 // DELETE ROUTE
-blogRouter.delete('/:id', asyncHandler(async (request, response) => {
+blogRouter.delete('/:id', userExtractor, asyncHandler(async (request, response) => {
 
   const user = request.user
 
