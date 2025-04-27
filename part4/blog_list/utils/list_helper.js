@@ -1,3 +1,5 @@
+const _ = require('lodash')
+const blog = require('../models/blog')
 // Let's create a collection of helper functions that are best suited for working with the describe sections of the blog list. 
 // Create the functions into a file called utils/list_helper.js.
 //  Write your tests into an appropriately named test file under the tests directory.
@@ -40,10 +42,45 @@ const favoriteBlog = (blogs) => {
     : blogs.reduce(reducer, blogs[0])
 }
 
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return 0
+  }
 
+  const authorGroups = _.groupBy(blogs, 'author')
+  const authorCounts = _.mapValues(authorGroups, group => group.length)
+
+  const maxAuthor = _.maxBy(Object.keys(authorCounts), author => authorCounts[author])
+
+  return {
+    author: maxAuthor,
+    blogs: authorCounts[maxAuthor]
+  }
+}
+
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return 0
+  }
+
+  // Group each blog by their author
+  const authorGroups = _.groupBy(blogs, 'author')
+
+  // Get each like for each author and their blogs
+  const authorLikes = _.mapValues(authorGroups, blogs => _.sumBy(blogs, 'likes'))
+
+  const maxAuthor = _.maxBy(Object.keys(authorLikes), author => authorLikes[author])
+
+  return {
+    author: maxAuthor,
+    likes: authorLikes[maxAuthor]
+  }
+}
 
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
 }
