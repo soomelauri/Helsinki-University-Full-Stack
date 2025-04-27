@@ -4,6 +4,7 @@ const config = require('./utils/config.js')
 const logger = require('./utils/logger.js')
 const errorHandler = require('./utils/middleware.js').errorHandler
 const tokenExtractor = require('./utils/middleware.js').tokenExtractor
+const userExtractor = require('./utils/middleware.js').userExtractor
 
 // router imports
 const blogRouter = require('./controllers/blogs.js')
@@ -29,7 +30,7 @@ app.use(express.json())
 app.use(tokenExtractor)
 
 // use router
-app.use('/api/blogs', blogRouter)
+app.use('/api/blogs', userExtractor, blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 

@@ -1,8 +1,6 @@
-const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog.js')
-const User = require('../models/user.js')
 
 // Create API Routes
 // GET Route
@@ -16,13 +14,7 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', asyncHandler(async (request, response) => {
   const body = request.body
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'invalid token' })
-  }
-
-  const user = await User.findById(decodedToken.id)
+  const user = request.user
 
   const blog = new Blog({
     _id: body._id,
@@ -44,15 +36,12 @@ blogRouter.post('/', asyncHandler(async (request, response) => {
 
 // DELETE ROUTE
 blogRouter.delete('/:id', asyncHandler(async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'invalid token' })
-  }
+  const user = request.user
 
   const blog = await Blog.findById(request.params.id)
 
-  if (blog.user.toString() !== decodedToken.id.toString()) {
+  if (blog.user.toString() !== user._id.toString()) {
     return response.status(401).json({ error: 'unauthorized user' })
   }
 

@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxzMTk5NiIsImlkIjoiNjgwZDY1YTBkYzhiMmExOTgxZThhN2IyIiwiaWF0IjoxNzQ1NzE5MzE0fQ.HvG6rwxQPhjZDLpuOC_lPzB2bGVt7x0U1jDZ-y2Hf0U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxzMTk5NiIsImlkIjoiNjgwZDY1YTBkYzhiMmExOTgxZThhN2IyIiwiaWF0IjoxNzQ1Nzc2NDMxfQ.C6nvn7BckSYHvhNGHz-_Rx_kwnNyjs37sw_z6PY3_5E
 
 {
-  "title": "Hope it Works",
-  "author": "Big Hoper",
-  "url": "https://hope.com/",
-  "likes": 1109
+  "title": "Step 10",
+  "author": "Helsinki U",
+  "url": "https://helu.com/",
+  "likes": 5
 }
