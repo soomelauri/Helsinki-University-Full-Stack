@@ -33,7 +33,7 @@
     {
       "id": "5340",
       "content": "Why didn't the previous note show?",
-      "important": false
+      "important": true
     },
     {
       "id": "086f",
@@ -94,6 +94,11 @@
       "id": "03aa",
       "content": "I'l try this one",
       "important": false
+    },
+    {
+      "id": "fa97",
+      "content": "This",
+      "important": true
     }
   ]
 }
