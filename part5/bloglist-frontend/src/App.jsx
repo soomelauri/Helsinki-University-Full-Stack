@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +14,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  // state for handling Notification message with style
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -33,12 +36,23 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
-    const user = await loginService.login({ username, password })
-    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-    setUser(user)
-    blogService.setToken(user.token)
-    setUsername('')
-    setPassword('')
+    try {
+      const user = await loginService.login({ username, password })
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      setUser(user)
+      blogService.setToken(user.token)
+      setUsername('')
+      setPassword('')
+      setNotificationMessage(`${user.name} logged in`)
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000);
+    } catch (error) {
+      setNotificationMessage('wrong username or password')
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000);
+    }
   }
 
   const handleLogout = async (event) => {
@@ -57,47 +71,51 @@ const App = () => {
       author: author,
       url: url
     }
-    
+
     const savedBlog = await blogService.create(newBlog)
 
     setBlogs(blogs.concat(savedBlog))
+    setNotificationMessage(`Successfully created ${savedBlog.title} written by ${savedBlog.author}`)
     setAuthor('')
     setTitle('')
     setUrl('')
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 5000);
   }
 
   const blogForm = () => {
     return (
-      <form onSubmit={createBlog}>
-        <div>
-          title
-          <input
-            type="text"
-            value={title}
-            name="Title"
-            onChange={({target}) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-        author
-          <input
-            type="text"
-            value={author}
-            name="Author"
-            onChange={({target}) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url
-          <input
-          type="url"
-          value={url}
-          name="Url"
-          onChange={({target}) => setUrl(target.value)}
-          />
-        </div>
-        <button type='submit'>create</button>
-      </form>
+        <form onSubmit={createBlog}>
+          <div>
+            title
+            <input
+              type="text"
+              value={title}
+              name="Title"
+              onChange={({target}) => setTitle(target.value)}
+            />
+          </div>
+          <div>
+          author
+            <input
+              type="text"
+              value={author}
+              name="Author"
+              onChange={({target}) => setAuthor(target.value)}
+            />
+          </div>
+          <div>
+            url
+            <input
+            type="url"
+            value={url}
+            name="Url"
+            onChange={({target}) => setUrl(target.value)}
+            />
+          </div>
+          <button type='submit'>create</button>
+        </form>
     )
   }
 
@@ -135,6 +153,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification notificationMessage={notificationMessage} />
       {user === null 
         ?
           (
@@ -152,7 +171,6 @@ const App = () => {
             {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
             )}
-            
           </div>
         )
       }
