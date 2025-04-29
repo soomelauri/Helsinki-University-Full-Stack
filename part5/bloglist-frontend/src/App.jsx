@@ -67,7 +67,7 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
-    setNotificationMessage(`Successfully created ${savedBlog.title} written by ${savedBlog.author}`)
+    setNotificationMessage(`Successfully created ${returnedBlog.title} written by ${returnedBlog.author}`)
     setTimeout(() => {
       setNotificationMessage(null)
     }, 5000);
