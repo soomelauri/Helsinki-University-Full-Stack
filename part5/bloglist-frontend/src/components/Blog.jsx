@@ -1,11 +1,14 @@
 import { useState } from "react"
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const [visible, setVisible] = useState(false)
 
   const toggleVisibility = () => {
     setVisible(!visible)
   }
+
+  const isOwner = user.username === blog.user.username
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -33,7 +36,7 @@ const Blog = ({ blog, updateBlog }) => {
           {visible ? 'hide' : 'view'}
         </button>
       </div>
-      {visible &&
+      {visible && (
       <div>
         <div>
           {blog.url}
@@ -44,8 +47,16 @@ const Blog = ({ blog, updateBlog }) => {
         <div>
           {blog.user ? blog.user.username : 'unknown'}
         </div>
-      </div>}
+        {isOwner && (
+          <div>
+            <button onClick={() => deleteBlog(blog.id)}>
+              delete
+            </button>
+          </div>
+        )}
+      </div>
+        )}
     </div>
-)}
+  )}
 
 export default Blog

@@ -18,12 +18,6 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
-
-  useEffect(() => {
     blogService.getAll().then(blogs => {
       const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
       setBlogs(sortedBlogs)
@@ -88,6 +82,15 @@ const App = () => {
     setBlogs(blogs.map(blog => blog.id === id ? updatedBlog : blog).sort((a, b) => b.likes - a.likes))
   }
 
+  // handle blog deletion by the owning user
+  const deleteBlog = async (id) => {
+    const blogToDelete = blogs.find(blog => blog.id === id)
+    if (window.confirm(`Delete ${blogToDelete.title} by ${blogToDelete.author}`)) {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    }
+  }
+
   const loginForm = () => {
     return (
       <form onSubmit={handleLogin}>
@@ -143,7 +146,13 @@ const App = () => {
               />
             </Togglable>
             {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              deleteBlog={deleteBlog}
+              user={user}
+            />
             )}
           </div>
         )
