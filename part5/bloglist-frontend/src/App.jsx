@@ -23,7 +23,6 @@ const App = () => {
       setBlogs(sortedBlogs)
     })
   }, [])
-  
 
   useEffect(() => {
     const userJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -33,7 +32,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -48,12 +46,12 @@ const App = () => {
       setNotificationMessage(`${user.name} logged in`)
       setTimeout(() => {
         setNotificationMessage(null)
-      }, 5000);
+      }, 5000)
     } catch (error) {
       setNotificationMessage('wrong username or password')
       setTimeout(() => {
         setNotificationMessage(null)
-      }, 5000);
+      }, 5000)
     }
   }
 
@@ -72,7 +70,7 @@ const App = () => {
     setNotificationMessage(`Successfully created ${returnedBlog.title} written by ${returnedBlog.author}`)
     setTimeout(() => {
       setNotificationMessage(null)
-    }, 5000);
+    }, 5000)
   }
 
   // handle blog update
@@ -97,17 +95,17 @@ const App = () => {
         <div>
           username
           <input type="text"
-          value={username}
-          name="Username"
-          onChange={({target}) => setUsername(target.value)}
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
           password
           <input type="password"
-          value={password}
-          name="Password"
-          onChange={({target}) => setPassword(target.value)}
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
           />
         </div>
         <button type='submit'>login</button>
@@ -118,7 +116,7 @@ const App = () => {
   const logoutForm = () => {
     return (
       <form onSubmit={handleLogout}>
-      <button type='submit'>logout</button>
+        <button type='submit'>logout</button>
       </form>
     )
   }
@@ -126,9 +124,9 @@ const App = () => {
   return (
     <div>
       <Notification notificationMessage={notificationMessage} />
-      {user === null 
+      {user === null
         ?
-          (
+        (
           <div>
             <h2>Log in to application</h2>
             {loginForm()}
@@ -146,13 +144,13 @@ const App = () => {
               />
             </Togglable>
             {blogs.map(blog =>
-            <Blog
-              key={blog.id}
-              blog={blog}
-              updateBlog={updateBlog}
-              deleteBlog={deleteBlog}
-              user={user}
-            />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                updateBlog={updateBlog}
+                deleteBlog={deleteBlog}
+                user={user}
+              />
             )}
           </div>
         )
