@@ -24,6 +24,14 @@ const App = () => {
   }, [])
 
   useEffect(() => {
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(sortedBlogs)
+    })
+  }, [])
+  
+
+  useEffect(() => {
     const userJSON = window.localStorage.getItem('loggedBlogappUser')
     if (userJSON) {
       const user = JSON.parse(userJSON)
@@ -77,7 +85,7 @@ const App = () => {
   const updateBlog = async (id, blogObject) => {
     const updatedBlog = await blogService.update(id, blogObject)
 
-    setBlogs(blogs.map(blog => blog.id === id ? updatedBlog : blog))
+    setBlogs(blogs.map(blog => blog.id === id ? updatedBlog : blog).sort((a, b) => b.likes - a.likes))
   }
 
   const loginForm = () => {
