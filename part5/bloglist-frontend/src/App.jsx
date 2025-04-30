@@ -77,8 +77,7 @@ const App = () => {
   const updateBlog = async (id, blogObject) => {
     const updatedBlog = await blogService.update(id, blogObject)
 
-    setBlogs(blogs.map(blog => blog.id === id ? {...blogs, likes: blogObject.likes} : blog))
-    return updatedBlog
+    setBlogs(blogs.map(blog => blog.id === id ? updatedBlog : blog))
   }
 
   const loginForm = () => {
@@ -129,7 +128,6 @@ const App = () => {
           <div>
             <h2>blogs</h2>
             {user.name} logged in {logoutForm()}
-            {/* {blogForm()} */}
             <Togglable buttonLabel="create" ref={blogFormRef}>
               <BlogForm
                 createBlog={addBlog}
