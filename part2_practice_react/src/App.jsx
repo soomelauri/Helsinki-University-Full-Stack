@@ -46,7 +46,7 @@ const App = () => {
         .then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(
           `Note '${note.content}' was already removed from server`
         )
@@ -70,8 +70,8 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong credentials')
+    } catch (error) {
+      setErrorMessage(error, 'wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
