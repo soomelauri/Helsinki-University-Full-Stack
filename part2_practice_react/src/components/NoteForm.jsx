@@ -22,6 +22,7 @@ const NoteForm = ({ createNote }) => {
                 <form onSubmit={addNote}>
                 <input value={newNote}
                     onChange={handleChange}
+                    data-testid='note-input'
                     // added placeholder here that was
                     // used in testing with
                     // screen.getByPlaceholderText('...')
