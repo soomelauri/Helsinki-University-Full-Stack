@@ -118,3 +118,7 @@ test('does not render this', () => {
     const element = screen.queryByText('do not want this thing to be rendered')
     expect(element).toBeNull()
 })
+
+
+// test coverage
+// use npm test -- --coverage

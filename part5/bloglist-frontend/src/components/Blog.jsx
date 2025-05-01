@@ -1,3 +1,6 @@
+// 1. let's write a CSS className for the Note component
+// find the div responsible for rendering the blog.author and blog.title and add 'className={blog}'
+
 import { useState } from 'react'
 
 const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
@@ -30,7 +33,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div className='blog'>
         {blog.title} {blog.author}
         <button onClick={toggleVisibility}>
           {visible ? 'hide' : 'view'}
