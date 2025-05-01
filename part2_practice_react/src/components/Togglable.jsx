@@ -25,7 +25,7 @@ const Togglable = forwardRef((props, refs) => {
                     {props.buttonLabel}
                 </button>
             </div>
-            <div style={showWhenVisible}>
+            <div style={showWhenVisible} className="togglableContent">
                 {props.children}
                 <button onClick={toggleVisibility}>cancel</button>
             </div>
@@ -40,3 +40,8 @@ Togglable.propTypes = {
 }
 
 export default Togglable
+
+
+// let's add the CSS-classname to Togglable
+// we want to put this in the content that will only be visible
+// after it's toggled

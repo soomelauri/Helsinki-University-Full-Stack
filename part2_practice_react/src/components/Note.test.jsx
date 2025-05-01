@@ -62,7 +62,7 @@ test('test that renders the component', async () => {
 
     // create the element by using screen.getByText('given text')
     // expect(element).toBeDefined()
-    const element = screen.getByText('this content is rendered by a test')
+    const element = screen.getByText('this content is rendered by a test', {'exact': false})
 
     screen.debug(element)
 
@@ -105,3 +105,16 @@ test('test that renders the component', async () => {
 // data attribute is specifically defined for testing purposes
 // <li data-id="13123" />
 // then we can use getByTestId on that data-id
+
+test('does not render this', () => {
+    // this queryByText() returns a promise, and does not cause
+    // an exception if it's not found
+    const note = {
+        content: 'This is a reminder',
+        important: true
+    }
+    render(<Note note={note} />)
+
+    const element = screen.queryByText('do not want this thing to be rendered')
+    expect(element).toBeNull()
+})
