@@ -72,20 +72,22 @@ describe('Note app', () => {
             })
 
                 // add a describe block to add the note before the next test runs
-                describe('and a note exists', () => {
+                describe('and several notes exist', () => {
                     // beforeEach to 
                     beforeEach(async ({ page }) => {
-                        await createNote(page, 'another playwright note')
+                        await createNote(page, 'first note')
+                        await createNote(page, 'second note')
+                        await createNote(page, 'third note')
                     })
 
-                    // test to check whether the importance of a note can be changed
-                    test('importance of a note can be changed', async ({ page }) => {
-
-                        // find the button that says 'make important'
-                        await page.getByRole('button', { name: 'make not important'}).click()
-
-                        // check that the button has now changed
-                        await expect(page.getByRole('button', { name: 'make important'} )).toBeVisible()
+                    // making one of those notes unimportant
+                    test('importance can be changed', async ({ page }) => {
+                        await page.pause()
+                        const otherNoteText = await page.getByText('second note')
+                        const otherNoteElement = await otherNoteText.locator('..')
+                      
+                        await otherNoteElement.getByRole('button', { name: 'make not important' }).click()
+                        await expect(otherNoteElement.getByText('make important')).toBeVisible()
                     })
                 })
         })
