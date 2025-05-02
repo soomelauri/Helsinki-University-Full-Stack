@@ -5,7 +5,6 @@ describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
     // empty the db here
     await request.post('/api/testing/reset')
-
     // create the user and send it through the post request of login
     await request.post('/api/users', {
         data: {
@@ -14,7 +13,6 @@ describe('Blog app', () => {
     })
     // go to blog app home page
     await page.goto('/')
-
   })
 
   test('Login form is shown', async ({ page }) => {
@@ -52,7 +50,6 @@ describe('Blog app', () => {
         // find the username and password input fields
         await page.getByTestId('username-input').fill('try_path')
         await page.getByTestId('password-input').fill('try_auth')
-
         // find the login button
         await page.getByRole('button', { name: 'login' }).click()
         })
