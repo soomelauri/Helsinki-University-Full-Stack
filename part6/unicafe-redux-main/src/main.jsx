@@ -5,7 +5,7 @@ import { createStore } from 'redux'
 import reducer from './reducer'
 
 const store = createStore(reducer)
-
+// completed Part 6.2 as well here
 const App = () => {
   const good = () => {
     store.dispatch({
