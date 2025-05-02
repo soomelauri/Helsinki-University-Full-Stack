@@ -99,6 +99,35 @@ describe('Blog app', () => {
 
                 await expect(page.getByText('BLOG TITLE BLOG AUTHOR')).not.toBeVisible()
             })
+            describe('when old user logs out', () => {
+                beforeEach(async({ page }) => {
+                    // find the logout button
+                    await page.getByRole('button', { name: 'logout' }).click()
+                })
+                test('login with new user', async ({ page, request }) => {
+                    // create the second user and send it through the post request of login
+                    await request.post('/api/users', {
+                        data: {
+                            name: 'Matti Mikkonen', username: 'path_try', password: 'auth_try'
+                        }
+                    })
+                    // go to blog app home page
+                    await page.goto('/')
+
+                    // find the username and password input fields
+                    await page.getByTestId('username-input').fill('path_try')
+                    await page.getByTestId('password-input').fill('auth_try')
+
+                    // find the login button
+                    await page.getByRole('button', { name: 'login' }).click()
+
+                    // view the previous users post:
+                    await page.getByRole('button', { name: 'view' }).click()
+
+                    // make sure the delete button isn't there
+                    await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible()
+                })
+            })
         })
       })
   })
