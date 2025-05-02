@@ -43,7 +43,7 @@ const App = () => {
       blogService.setToken(user.token)
       setUsername('')
       setPassword('')
-      setNotificationMessage(`${user.name} logged in`)
+      setNotificationMessage(`Hi ${user.name}`)
       setTimeout(() => {
         setNotificationMessage(null)
       }, 5000)
@@ -105,6 +105,7 @@ const App = () => {
           <input type="text"
             value={username}
             name="Username"
+            data-testid='username-input'
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
@@ -113,6 +114,7 @@ const App = () => {
           <input type="password"
             value={password}
             name="Password"
+            data-testid='password-input'
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>

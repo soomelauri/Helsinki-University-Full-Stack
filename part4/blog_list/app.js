@@ -33,6 +33,12 @@ app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 
+// if condition for the testingRouter
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing.js')
+  app.use('/api/testing', testingRouter)
+}
+
 // use Middleware
 app.use(errorHandler)
 
