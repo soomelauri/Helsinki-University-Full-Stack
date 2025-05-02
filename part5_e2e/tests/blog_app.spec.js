@@ -89,6 +89,16 @@ describe('Blog app', () => {
                 // find the 1 like in the page
                 await expect(page.getByText('1')).toBeVisible()
             })
+            test('post can be deleted', async ({ page }) => {
+                // click the view button
+                await page.getByRole('button', { name: 'view' }).click()
+                // accept dialog before delete
+                page.on('dialog', dialog => dialog.accept())
+                // click the delet button
+                await page.getByRole('button', { name: 'delete' }).click()
+
+                await expect(page.getByText('BLOG TITLE BLOG AUTHOR')).not.toBeVisible()
+            })
         })
       })
   })
