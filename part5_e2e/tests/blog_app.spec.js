@@ -47,5 +47,31 @@ describe('Blog app', () => {
 
         await expect(page.getByText('wrong username or password')).toBeVisible()
     })
+    describe('When logged in', () => {
+        beforeEach(async ({ page }) => {
+        // find the username and password input fields
+        await page.getByTestId('username-input').fill('try_path')
+        await page.getByTestId('password-input').fill('try_auth')
+
+        // find the login button
+        await page.getByRole('button', { name: 'login' }).click()
+        })
+      
+        test('a new blog can be created', async ({ page }) => {
+            // find the create button
+            await page.getByRole('button', { name: 'create' }).click()
+
+            // find the author, url and title based on placeholder text
+            await page.getByPlaceholder('insert title').fill('BLOG TITLE')
+            await page.getByPlaceholder('insert author').fill('BLOG AUTHOR')
+            await page.getByPlaceholder('insert url').fill('http://localhost:5173/')
+
+            await page.getByRole('button', { name: 'create' }).click()
+
+            // make sure the title and author is shown
+            await page.getByText('BLOG TITLE BLOG AUTHOR').waitFor()
+
+        })
+      })
   })
 })
