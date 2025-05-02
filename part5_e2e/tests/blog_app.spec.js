@@ -64,13 +64,31 @@ describe('Blog app', () => {
             // find the author, url and title based on placeholder text
             await page.getByPlaceholder('insert title').fill('BLOG TITLE')
             await page.getByPlaceholder('insert author').fill('BLOG AUTHOR')
-            await page.getByPlaceholder('insert url').fill('http://localhost:5173/')
+            await page.getByPlaceholder('insert url').fill('http://localhost:5273/')
 
             await page.getByRole('button', { name: 'create' }).click()
 
             // make sure the title and author is shown
             await page.getByText('BLOG TITLE BLOG AUTHOR').waitFor()
-
+        })
+        describe('when one post', () => {
+            beforeEach(async ({ page }) => {
+                await page.getByRole('button', { name: 'create' }).click()
+                await page.getByPlaceholder('insert title').fill('BLOG TITLE')
+                await page.getByPlaceholder('insert author').fill('BLOG AUTHOR')
+                await page.getByPlaceholder('insert url').fill('http://localhost:5273/')
+                await page.getByRole('button', { name: 'create' }).click()
+            })
+            test('a blog can be liked', async ({ page }) => {
+                // click the view button
+                await page.getByRole('button', { name: 'view' }).click()
+    
+                // click the like button
+                await page.getByRole('button', { name: 'like' }).click()
+    
+                // find the 1 like in the page
+                await expect(page.getByText('1')).toBeVisible()
+            })
         })
       })
   })
