@@ -13,12 +13,14 @@ const NewAnecdote = () => {
         event.target.anecdote.value = ''
     }
 
-
     return (
-        <form onSubmit={addAnecdote}>
-            <input name="anecdote" />
-            <button type="submit">add</button>
-        </form>
+        <div>
+            <h2>create new</h2>
+            <form onSubmit={addAnecdote}>
+                <input name="anecdote" />
+                <button type="submit">add</button>
+            </form>
+        </div>
     )
 }
 
