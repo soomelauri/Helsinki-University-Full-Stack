@@ -1,11 +1,25 @@
 import NewNote from './components/NewNote'
 import Notes from './components/Notes'
 
+// adding to the App component, we will create a new function that first logs the chosen value from the radiobutton to console
+// now, when the input type is set to radio and the name of the buttons is set to filter
+// we need to now connect the radio button's onChange function to the filterSelected function
+
+// having the name component be the same for the radio buttons, that allows only one to be selected at a time
+
 const App = () => {
+  const filterSelected = (value) => {
+    console.log(value)
+  }
 
   return (
     <div>
       <NewNote />
+      <div>
+        all <input type="radio" name="filter" onChange={() => filterSelected('ALL')}/>
+        important <input type="radio" name="filter" onChange={() => filterSelected('IMPORTANT')}/>
+        nonimportant <input type="radio" name="filter" onChange={() => filterSelected('NONIMPORTANT')}/>
+      </div>
       <Notes />
     </div>
   )

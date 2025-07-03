@@ -1,4 +1,19 @@
-const noteReducer = (state = [], action) => {
+// let's create some initialNotes, that will then be used in the noteReducer as the starting state
+// we'll create these notes inside the initialState which is a list that contains dictionaries
+const initialState = [
+    {
+        content: 'random first note',
+        important: true,
+        id: 1
+    },
+    {
+        content: 'second note',
+        important: false,
+        id: 2
+    }
+]
+
+const noteReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'NEW_NOTE':
 
